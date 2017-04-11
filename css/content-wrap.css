@@ -1,0 +1,33 @@
+.cmb2-content-wrap-field {
+    display: inline-block;
+    width: 55px;
+}
+
+.cmb2-content-wrap-field .cmb2-content-wrap-select {
+    margin-top: 0;
+    vertical-align: baseline;
+}
+
+.cmb2-content-wrap-field.cmb2-content-wrap-field-switch {
+    width: 30px;
+}
+
+.cmb2-content-wrap-field-switch .button {
+    vertical-align: baseline !important;
+    padding: 0px 5px 1px !important;
+}
+
+.cmb2-content-wrap-field-switch .button .dashicons {
+    line-height: 26px;
+}
+
+.cmb2-content-wrap-multiple .cmb2-content-wrap-field-all {
+    display: none;
+}
+
+.cmb2-content-wrap-single .cmb2-content-wrap-field-top,
+.cmb2-content-wrap-single .cmb2-content-wrap-field-right,
+.cmb2-content-wrap-single .cmb2-content-wrap-field-bottom,
+.cmb2-content-wrap-single .cmb2-content-wrap-field-left {
+    display: none;
+}
