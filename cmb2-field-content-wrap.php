@@ -1,14 +1,18 @@
 <?php
-/*
-Plugin Name: CMB2 Field Type: Content Wrap
-Plugin URI: https://github.com/rubengc/cmb2-field-content-wrap
-GitHub Plugin URI: https://github.com/rubengc/cmb2-field-content-wrap
-Description: CMB2 field type to setup content wrap values (margin, border(width) and padding).
-Version: 1.0.0
-Author: Ruben Garcia
-Author URI: http://rubengc.com/
-License: GPLv2+
-*/
+/**
+ * @package      CMB2\Field_Content_Wrap
+ * @author       Tsunoa
+ * @copyright    Copyright (c) Tsunoa
+ *
+ * Plugin Name: CMB2 Field Type: Content Wrap
+ * Plugin URI: https://github.com/rubengc/cmb2-field-content-wrap
+ * GitHub Plugin URI: https://github.com/rubengc/cmb2-field-content-wrap
+ * Description: CMB2 field type to setup content wrap values (margin, border(width) and padding).
+ * Version: 1.0.0
+ * Author: Tsunoa
+ * Author URI: https://tsunoa.com/
+ * License: GPLv2+
+ */
 
 
 // Exit if accessed directly
