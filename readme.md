@@ -24,6 +24,11 @@ function cmb2_content_wrap_metabox() {
 		'desc'          => __( 'Field description (optional)', 'cmb2' ),
 		'id'            => $prefix . 'content_wrap',
 		'type'          => 'content_wrap',
+		// Custom units (units by default are 'px', '%' and 'em'
+		'units'     => array(
+			'px' => 'px',
+			'%' => '%',
+		)
 	) );
 
 }
@@ -57,6 +62,9 @@ function cmb2_content_wrap_metabox() {
 ```
 
 ## Changelog
+
+### 1.0.1
+* Added the ability to define custom units
 
 ### 1.0.0
 * Initial commit

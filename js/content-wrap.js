@@ -1,4 +1,5 @@
-(function($){
+(function( $ ){
+
     $('body').on('click', '.cmb2-content-wrap-field-switch .button', function(e) {
         e.preventDefault();
 
@@ -17,4 +18,5 @@
             $(this).find('i').attr('class', 'dashicons dashicons-editor-contract');
         }
     });
-})(jQuery);
+
+})( jQuery );

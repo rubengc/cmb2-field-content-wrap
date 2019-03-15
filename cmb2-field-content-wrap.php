@@ -1,16 +1,16 @@
 <?php
 /**
  * @package      CMB2\Field_Content_Wrap
- * @author       Tsunoa
- * @copyright    Copyright (c) Tsunoa
+ * @author       Ruben Garcia <rubengcdev@gmail.com>
+ * @copyright    Copyright (c) Ruben Garcia <rubengcdev@gmail.com>
  *
  * Plugin Name: CMB2 Field Type: Content Wrap
  * Plugin URI: https://github.com/rubengc/cmb2-field-content-wrap
  * GitHub Plugin URI: https://github.com/rubengc/cmb2-field-content-wrap
  * Description: CMB2 field type to setup content wrap values (margin, border(width) and padding).
- * Version: 1.0.0
- * Author: Tsunoa
- * Author URI: https://tsunoa.com/
+ * Version: 1.0.1
+ * Author: Ruben Garcia <rubengcdev@gmail.com>
+ * Author URI: https://gamipress.com/
  * License: GPLv2+
  */
 
@@ -19,15 +19,16 @@
 if( !defined( 'ABSPATH' ) ) exit;
 
 if( !class_exists( 'CMB2_Field_Content_Wrap' ) ) {
+
     /**
-     * Class CMB2_Field_Position
+     * Class CMB2_Field_Content_Wrap
      */
     class CMB2_Field_Content_Wrap {
 
         /**
          * Current version number
          */
-        const VERSION = '1.0.0';
+        const VERSION = '1.0.1';
 
         /**
          * Initialize the plugin by hooking into CMB2
@@ -35,21 +36,16 @@ if( !class_exists( 'CMB2_Field_Content_Wrap' ) ) {
         public function __construct() {
             add_action( 'admin_enqueue_scripts', array( $this, 'setup_admin_scripts' ) );
             add_action( 'cmb2_render_content_wrap', array( $this, 'render' ), 10, 5 );
-            add_action( 'cmb2_sanitize_content_wrap', array( $this, 'sanitize' ), 10, 4 );
         }
 
         /**
          * Render field
          */
         public function render( $field, $value, $object_id, $object_type, $field_type ) {
-            $initial_content_wrap = 'single';
+            $initial_content_wrap = 'multiple';
 
-            if( ( isset( $value['top'] ) && ! empty( $value['top'] ) )
-                || ( isset( $value['right'] ) && ! empty( $value['right'] ) )
-                || ( isset( $value['bottom'] ) && ! empty( $value['bottom'] ) )
-                || ( isset( $value['left'] ) && ! empty( $value['left'] ) )
-            ) {
-                $initial_content_wrap = 'multiple';
+            if( ( isset( $value['all'] ) && ! empty( $value['all'] ) ) ) {
+                $initial_content_wrap = 'single';
             }
             ?>
 
@@ -127,25 +123,46 @@ if( !class_exists( 'CMB2_Field_Content_Wrap' ) ) {
                     ) ); ?>
                 </div>
 
-                <div class="cmb2-content-wrap-field cmb2-content-wrap-field-unit">
-                    <label for="<?php echo $field_type->_name(); ?>_unit"><?php _e( 'Unit:', 'cmb2' ); ?></label>
+                <?php
+                $unit_options = array(
+                    'px' => 'px',
+                    'em' => 'em',
+                    '%' => '%',
+                );
 
-                    <?php
-                    $unit_options = array(
-                        'px' => 'px',
-                        'em' => 'em',
-                        '%' => '%',
-                    );
+                if( is_array( $field->args( 'units' ) ) ) {
+                    $unit_options = $field->args( 'units' );
+                }
 
-                    echo $field_type->select( array(
+                // If there is just 1 unit option, set it on a hidden field
+                if( count( $unit_options ) === 1 ) :
+
+                    $first_index = array_keys( $unit_options )[0];
+
+                    echo $field_type->input( array(
                         'name'    => $field_type->_name() . '[unit]',
                         'desc'    => '',
                         'id'      => $field_type->_id() . '_unit',
-                        'class' => 'cmb2-content-wrap-select',
-                        'options' => $this->build_options_string( $field_type, $unit_options, ( ( isset( $value['unit'] ) ) ? $value['unit'] : '' ) ),
-                    ) );
-                    ?>
-                </div>
+                        'type'    => 'hidden',
+                        'value' => $unit_options[$first_index],
+                    ) ); ?>
+
+                <?php else: ?>
+
+                    <div class="cmb2-content-wrap-field cmb2-content-wrap-field-unit">
+                        <label for="<?php echo $field_type->_name(); ?>_unit"><?php _e( 'Unit:', 'cmb2' ); ?></label>
+
+                        <?php echo $field_type->select( array(
+                            'name'    => $field_type->_name() . '[unit]',
+                            'desc'    => '',
+                            'id'      => $field_type->_id() . '_unit',
+                            'class' => 'cmb2-content-wrap-select',
+                            'options' => $this->build_options_string( $field_type, $unit_options, ( ( isset( $value['unit'] ) ) ? $value['unit'] : '' ) ),
+                        ) ); ?>
+                    </div>
+
+                <?php endif; ?>
+
             </div>
 
             <?php
@@ -160,21 +177,6 @@ if( !class_exists( 'CMB2_Field_Content_Wrap' ) ) {
             }
 
             return $options_string;
-        }
-
-        /**
-         * Optionally save the latitude/longitude values into two custom fields
-         */
-        public function sanitize( $override_value, $value, $object_id, $field_args ) {
-            $fid = $field_args['id'];
-
-            if( $field_args['render_row_cb'][0]->data_to_save[$fid] ) {
-                $value = $field_args['render_row_cb'][0]->data_to_save[$fid];
-            } else {
-                $value = false;
-            }
-
-            return $value;
         }
 
         /**
@@ -194,4 +196,5 @@ if( !class_exists( 'CMB2_Field_Content_Wrap' ) ) {
     }
 
     $cmb2_field_content_wrap = new CMB2_Field_Content_Wrap();
+
 }
